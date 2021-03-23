@@ -1,56 +1,45 @@
 <template>
   <div>
     <v-container>
-      <v-simple-table>
-        <template v-slot:default>
-          <colgroup>
-            <col span="1" style="width: 30%" />
-            <col span="1" style="width: 45%" />
-            <col span="1" style="width: 25%" />
-            <col span="1" style="width: 5%" />
-            <col span="1" style="width: 5%" />
-          </colgroup>
-          <thead>
-            <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Description</th>
-              <th class="text-left">Image</th>
-              <th class="text-left"></th>
-              <th class="text-left"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="anime in animes" :key="anime.Id">
-              <td>{{ anime.Name }}</td>
-              <td>{{ anime.Description }}</td>
-              <td>{{ anime.ImgSrc }}</td>
-              <td>
-                <v-btn outlined @click="openEditDialog(anime)" tile>Edit</v-btn>
-              </td>
-              <td>
-                <v-btn
-                  tile
-                  outlined
-                  color="error"
-                  @click="openDeleteDialog(anime)"
-                  >Delete</v-btn
-                >
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <v-container class="py-0"
-                  ><v-btn tile color="success" outlined>Add</v-btn></v-container
-                >
-              </td>
-            </tr>
-          </tbody>
+      <v-data-table
+        :headers="headers"
+        :items="animes"
+        :search="search"
+        sort-by="name"
+        class="elevation-1"
+      >
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-toolbar-title>Animes</v-toolbar-title>
+            <v-divider class="mx-4" inset vertical></v-divider>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
+            <v-spacer></v-spacer>
+            <v-btn
+              tile
+              color="success"
+              outlined
+              v-bind:disabled="addDisabled"
+              @click="openAddDialog()"
+              >Add</v-btn
+            >
+          </v-toolbar>
         </template>
-      </v-simple-table>
+        <template v-slot:item.actions="{ item }">
+          <v-icon small class="mr-2" @click="openEditDialog(item)">
+            mdi-pencil
+          </v-icon>
+          <v-icon small @click="openDeleteDialog(item)"> mdi-delete </v-icon>
+        </template>
+      </v-data-table>
+      <v-alert v-if="error" outlined type="error" color="error">
+        There was an error receiving the animes
+      </v-alert>
     </v-container>
 
     <v-row justify="center">
@@ -71,13 +60,16 @@
     </v-row>
 
     <v-row justify="center">
-      <v-dialog v-model="editDialog" persistent max-width="600px">
+      <v-dialog v-model="editDialog" max-width="600px">
         <v-card>
           <validation-observer ref="observer" v-slot="{ invalid }">
             <form @submit.prevent="submit">
-              <v-card-title>
+              <v-card-title v-if="isEdit">
                 <span class="headline">Edit anime with ID: </span>
                 <v-text-field class="ml-2" disabled :value="id"> </v-text-field>
+              </v-card-title>
+              <v-card-title v-if="!isEdit">
+                <span class="headline">Add new anime</span>
               </v-card-title>
               <v-card-text>
                 <v-container>
@@ -105,6 +97,22 @@
                         <v-text-field
                           label="Image source"
                           v-model="img"
+                          :error-messages="errors"
+                          required
+                        ></v-text-field>
+                      </ValidationProvider>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="6">
+                      <ValidationProvider
+                        v-slot="{ errors }"
+                        name="JapanesName"
+                        rules="required"
+                      >
+                        <v-text-field
+                          v-model="japname"
+                          label="Japanese name*"
                           :error-messages="errors"
                           required
                         ></v-text-field>
@@ -163,23 +171,44 @@ extend("required", {
 
 export default {
   data: () => ({
+    search: "",
+    error: false,
+    loading: true,
     animes: [],
     deleteDialog: false,
     selected: {},
     editDialog: false,
+    isEdit: false,
     name: "",
+    japname: "",
     desc: "",
     img: "",
     id: "",
+
+    headers: [
+      {
+        text: "Name",
+        align: "start",
+        value: "Name",
+      },
+      { text: "Description", value: "Description" },
+      { text: "Actions", value: "actions", sortable: false },
+    ],
   }),
   created() {
     const config = {
       method: "get",
       url: "/Anime",
     };
-    this.$axios(config).then((result) => {
-      this.animes = result.data;
-    });
+    this.$axios(config)
+      .then((result) => {
+        this.animes = result.data;
+        this.loading = false;
+      })
+      .catch((error) => {
+        this.error = true;
+        console.log(error);
+      });
   },
   methods: {
     openDeleteDialog(anime) {
@@ -191,6 +220,17 @@ export default {
       this.desc = anime.Description;
       this.id = anime.id;
       this.img = anime.ImgSrc;
+      this.japname = anime.JapaneseName;
+      this.isEdit = true;
+      this.editDialog = true;
+    },
+    openAddDialog() {
+      this.name = "";
+      this.desc = "";
+      this.id = "";
+      this.img = "";
+      this.japname = "";
+      this.isEdit = false;
       this.editDialog = true;
     },
     closeEditDialog() {
@@ -198,16 +238,23 @@ export default {
       this.desc = "";
       this.id = "";
       this.img = "";
+      this.japname = "";
       this.$refs.observer.reset();
+      this.isEdit = false;
       this.editDialog = false;
     },
     submit() {
       this.$refs.observer.validate().then(() => {
-        this.updateAnime();
-        var result = this.animes.find(({ id }) => id === this.id);
-        result.Name = this.name;
-        result.Description = this.desc;
-        result.ImgSrc = this.img;
+        if (this.isEdit) {
+          this.updateAnime();
+          var result = this.animes.find(({ id }) => id === this.id);
+          result.Name = this.name;
+          result.Description = this.desc;
+          result.ImgSrc = this.img;
+          result.JapaneseName = this.japname;
+        } else {
+          this.addAnime();
+        }
         this.closeEditDialog();
       });
     },
@@ -219,10 +266,34 @@ export default {
           "Content-Type": "application/json",
         },
         data: {
-          ID: this.id,
-          Name: this.name,
-          Description: this.desc,
-          ImgSrc: this.img,
+          description: this.desc,
+          iD: this.id,
+          imgSrc: this.img,
+          japaneseName: this.japname,
+          name: this.name,
+        },
+      };
+
+      this.$axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    addAnime() {
+      var config = {
+        method: "post",
+        url: "/Anime/AddAnime",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          description: this.desc,
+          imgSrc: this.img,
+          japaneseName: this.japname,
+          name: this.name,
         },
       };
 
