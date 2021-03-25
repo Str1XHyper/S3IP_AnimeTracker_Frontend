@@ -5,6 +5,8 @@
         :headers="headers"
         :items="animes"
         :search="search"
+        v-bind:loading="loading"
+        loading-text="Loading animes... Please wait"
         sort-by="name"
         class="elevation-1"
       >
@@ -43,7 +45,8 @@
     </v-container>
 
     <v-row justify="center">
-      <v-dialog v-model="deleteDialog" persistent max-width="600px">
+      <v-dialog 
+        transition="dialog-bottom-transition" v-model="deleteDialog" max-width="600px">
         <v-card>
           <v-card-title>
             <span class="headline">
@@ -60,7 +63,8 @@
     </v-row>
 
     <v-row justify="center">
-      <v-dialog v-model="editDialog" max-width="600px">
+      <v-dialog 
+        transition="dialog-bottom-transition" v-model="editDialog" max-width="600px">
         <v-card>
           <validation-observer ref="observer" v-slot="{ invalid }">
             <form @submit.prevent="submit">
@@ -139,7 +143,6 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-
                 <v-btn class="mr-4" type="submit" :disabled="invalid">
                   Save
                 </v-btn>
