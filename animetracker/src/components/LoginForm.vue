@@ -7,8 +7,8 @@
         >
       </template>
       <v-tabs fixed-tabs color="accent">
-        <v-tab> Login </v-tab>
-        <v-tab> Register </v-tab>
+        <v-tab @click="alert = false"> Login </v-tab>
+        <v-tab @click="alert = false"> Register </v-tab>
         <v-tab-item>
           <validation-observer ref="observer" v-slot="{ invalid }">
             <form>
@@ -40,6 +40,9 @@
                         label="Password*"
                         v-model="password"
                         :error-messages="errors"
+                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show1 ? 'text' : 'password'"
+                        @click:append="show1 = !show1"
                         required
                       ></v-text-field>
                     </ValidationProvider>
@@ -101,6 +104,26 @@
                         label="Password*"
                         v-model="password"
                         :error-messages="errors"
+                        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show2 ? 'text' : 'password'"
+                        @click:append="show2 = !show2"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider> </v-col
+                  ><v-col>
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      name="Confirm Password"
+                      rules="required"
+                    >
+                      <v-text-field
+                        label="Confirm Password*"
+                        v-model="confirmPassword"
+                        :error-messages="errors"
+                        :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show3 ? 'text' : 'password'"
+                        :rules="[passwordMatch]"
+                        @click:append="show3 = !show3"
                         required
                       ></v-text-field>
                     </ValidationProvider>
@@ -118,6 +141,8 @@
           </validation-observer></v-tab-item
         >
       </v-tabs>
+      <v-alert class="mb-0" v-model="alert" color="error"
+      dismissible> An unhandeld exception occured, please contact Tijnvanveghel@gmail.com </v-alert>
     </v-dialog>
   </div>
 </template>
@@ -138,11 +163,22 @@ extend("required", {
   message: "{_field_} can not be empty",
 });
 export default {
+  computed: {
+    passwordMatch() {
+      return () =>
+        this.password === this.confirmPassword || "Password must match";
+    },
+  },
   data: () => ({
     dialog: false,
     username: "",
     password: "",
+    confirmPassword: "",
     email: "",
+    show1: false,
+    show2: false,
+    show3: false,
+    alert: false,
   }),
   components: {
     ValidationProvider,
@@ -163,24 +199,43 @@ export default {
       };
 
       this.$axios(config)
-        .then((response) =>{
-            this.$cookie.set("TC.ISD", response.data.JWT, {
-              expires: 30,
-              domain: "localhost",
-              SameSite: "Lax",
-              Secure: true,
-            });
+        .then((response) => {
+          this.$cookie.set("TC.ISD", response.data.jwt, {
+            expires: 30,
+            domain: "localhost",
+            SameSite: "Lax",
+          });
 
-          this.$store.commit("setLoggedIn")
+          this.$store.commit("setLoggedIn");
           this.$store.commit("setUser", response.data.user);
-
-          console.log(JSON.stringify(response.data));
         })
         .catch(function (error) {
           console.log(error);
         });
     },
-    register() {},
+    register() {
+      var config = {
+        method: "post",
+        url: "/Auth/Register",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          email: this.email,
+          password: this.password,
+          username: this.username,
+        },
+      };
+
+      this.$axios(config)
+        .then((response) => {
+          this.$store.commit("setLoggedIn");
+          this.$store.commit("setUser", response.data);
+        })
+        .catch(function (error) {
+          this.alert = true;
+        });
+    },
   },
 };
 </script>

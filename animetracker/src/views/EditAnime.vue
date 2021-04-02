@@ -26,17 +26,16 @@
               tile
               color="success"
               outlined
-              v-bind:disabled="addDisabled"
               @click="openAddDialog()"
               >Add</v-btn
             >
           </v-toolbar>
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-icon small class="mr-2" @click="openEditDialog(item)">
+          <v-icon color="accent" small class="mr-2" @click="openEditDialog(item)">
             mdi-pencil
           </v-icon>
-          <v-icon small @click="openDeleteDialog(item)"> mdi-delete </v-icon>
+          <v-icon color="error" small @click="openDeleteDialog(item)"> mdi-delete </v-icon>
         </template>
       </v-data-table>
       <v-alert v-if="error" outlined type="error" color="error">
@@ -195,7 +194,7 @@ export default {
         value: "Name",
       },
       { text: "Description", value: "Description" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "Actions", value: "actions", sortable: false, align:"right" },
     ],
   }),
   created() {

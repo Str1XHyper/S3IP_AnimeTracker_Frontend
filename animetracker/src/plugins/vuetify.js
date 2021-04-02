@@ -16,7 +16,7 @@ export default new Vuetify({
             dark1: "#403d39",
             dark2: "#252422",
             accent: '#F15025',
-            error: '#FF5252',
+            error: '#BF0025',
             info: '#2196F3',
             success: '#4CAF50',
             warning: '#FFC107'
@@ -27,7 +27,7 @@ export default new Vuetify({
             dark1: "#403d39",
             dark2: "#252422",
             accent: '#F15025',
-            error: '#FF5252',
+            error: '#BF0025',
             info: '#2196F3',
             success: '#4CAF50',
             warning: '#FFC107'

@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <v-container >
+    <v-container>
+        <h1 class="font-weight-bold">Newest animes</h1>
       <v-row>
         <v-card
           class="mx-auto mt-3"
@@ -34,9 +35,6 @@
         </v-card>
       </v-row>
     </v-container>
-
-
-
   </div>
 </template>
 
@@ -45,25 +43,25 @@ export default {
   data: () => ({
     animes: [],
     dialog: false,
-      dialogDelete: false,
-      headers: [
-        {
-          text: 'Name',
-          align: 'start',
-          value: 'Name',
-        },
-        { text: 'Description', value: 'Description' },
-        { text: 'Actions', value: 'actions', sortable: false },
-      ],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        desc: 0,
+    dialogDelete: false,
+    headers: [
+      {
+        text: "Name",
+        align: "start",
+        value: "Name",
       },
-      defaultItem: {
-        name: '',
-        desc: 0,
-      },
+      { text: "Description", value: "Description" },
+      { text: "Actions", value: "actions", sortable: false },
+    ],
+    editedIndex: -1,
+    editedItem: {
+      name: "",
+      desc: 0,
+    },
+    defaultItem: {
+      name: "",
+      desc: 0,
+    },
   }),
   created() {
     const config = {
@@ -81,17 +79,17 @@ export default {
       });
   },
   methods: {
-editItem (item) {
-        this.editedIndex = this.animes.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
+    editItem(item) {
+      this.editedIndex = this.animes.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
 
-      deleteItem (item) {
-        this.editedIndex = this.animes.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialogDelete = true
-      },
-  }
+    deleteItem(item) {
+      this.editedIndex = this.animes.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+  },
 };
 </script>
