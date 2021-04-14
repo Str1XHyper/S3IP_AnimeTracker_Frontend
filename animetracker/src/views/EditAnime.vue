@@ -5,6 +5,8 @@
         :headers="headers"
         :items="animes"
         :search="search"
+        v-bind:loading="loading"
+        loading-text="Loading animes... Please wait"
         sort-by="name"
         class="elevation-1"
       >
@@ -24,17 +26,16 @@
               tile
               color="success"
               outlined
-              v-bind:disabled="addDisabled"
               @click="openAddDialog()"
               >Add</v-btn
             >
           </v-toolbar>
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-icon small class="mr-2" @click="openEditDialog(item)">
+          <v-icon color="accent" small class="mr-2" @click="openEditDialog(item)">
             mdi-pencil
           </v-icon>
-          <v-icon small @click="openDeleteDialog(item)"> mdi-delete </v-icon>
+          <v-icon color="error" small @click="openDeleteDialog(item)"> mdi-delete </v-icon>
         </template>
       </v-data-table>
       <v-alert v-if="error" outlined type="error" color="error">
@@ -43,7 +44,8 @@
     </v-container>
 
     <v-row justify="center">
-      <v-dialog v-model="deleteDialog" persistent max-width="600px">
+      <v-dialog 
+        transition="dialog-bottom-transition" v-model="deleteDialog" max-width="600px">
         <v-card>
           <v-card-title>
             <span class="headline">
@@ -60,7 +62,8 @@
     </v-row>
 
     <v-row justify="center">
-      <v-dialog v-model="editDialog" max-width="600px">
+      <v-dialog 
+        transition="dialog-bottom-transition" v-model="editDialog" max-width="600px">
         <v-card>
           <validation-observer ref="observer" v-slot="{ invalid }">
             <form @submit.prevent="submit">
@@ -139,7 +142,6 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-
                 <v-btn class="mr-4" type="submit" :disabled="invalid">
                   Save
                 </v-btn>
@@ -189,19 +191,20 @@ export default {
       {
         text: "Name",
         align: "start",
-        value: "Name",
+        value: "name",
       },
-      { text: "Description", value: "Description" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "Description", value: "description" },
+      { text: "Actions", value: "actions", sortable: false, align:"right" },
     ],
   }),
   created() {
     const config = {
       method: "get",
-      url: "/Anime",
+      url: "/Anime/All",
     };
     this.$axios(config)
       .then((result) => {
+        console.log(result.data)
         this.animes = result.data;
         this.loading = false;
       })
@@ -216,11 +219,11 @@ export default {
       this.deleteDialog = true;
     },
     openEditDialog(anime) {
-      this.name = anime.Name;
-      this.desc = anime.Description;
+      this.name = anime.name;
+      this.desc = anime.description;
       this.id = anime.id;
-      this.img = anime.ImgSrc;
-      this.japname = anime.JapaneseName;
+      this.img = anime.imgSrc;
+      this.japname = anime.japaneseName;
       this.isEdit = true;
       this.editDialog = true;
     },
