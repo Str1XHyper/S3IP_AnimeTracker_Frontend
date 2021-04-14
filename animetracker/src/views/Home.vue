@@ -1,83 +1,34 @@
 <template>
   <div class="home">
     <v-container>
-        <h1 class="font-weight-bold">Newest animes</h1>
       <v-row>
-        <v-card
-          class="mx-auto mt-3"
-          max-width="350"
-          min-width="350"
-          outlined
-          v-for="anime in animes"
-          :key="anime.id"
-        >
-          <v-list-item three-line>
-            <v-list-item-content>
-              <div class="overline mb-4">
-                {{ anime.JapaneseName }}
-              </div>
-              <v-list-item-title class="headline mb-1">
-                {{ anime.Name }}
-              </v-list-item-title>
-              <v-list-item-subtitle>{{
-                anime.Description
-              }}</v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-avatar tile size="80" color="grey"
-              ><v-img :src="anime.ImgSrc"></v-img
-            ></v-list-item-avatar>
-          </v-list-item>
-
-          <v-card-actions>
-            <v-btn outlined rounded text> More info </v-btn>
-          </v-card-actions>
-        </v-card>
+        <Newest :key="rerender" />
       </v-row>
+    </v-container>
+    <v-container>
+      <v-alert dense v-if="$store.state.apiError" type="error" color="error">
+        <v-row align="center">
+          <v-col class="grow">
+            An error occured while requesting the animes, Notify
+            tijnvanveghel@gmail.com if this problems remains
+          </v-col>
+          <v-col class="shrink">
+            <v-btn fab text small @click="forceUpdate"
+              ><v-icon>mdi-reload</v-icon></v-btn
+            >
+          </v-col>
+        </v-row>
+      </v-alert>
     </v-container>
   </div>
 </template>
 
 <script>
+import Newest from "../components/HomePage/NewestAnimes";
 export default {
   data: () => ({
-    animes: [],
-    dialog: false,
-    dialogDelete: false,
-    headers: [
-      {
-        text: "Name",
-        align: "start",
-        value: "Name",
-      },
-      { text: "Description", value: "Description" },
-      { text: "Actions", value: "actions", sortable: false },
-    ],
-    editedIndex: -1,
-    editedItem: {
-      name: "",
-      desc: 0,
-    },
-    defaultItem: {
-      name: "",
-      desc: 0,
-    },
+    rerender: 0,
   }),
-  created() {
-    const config = {
-      method: "get",
-      url: "/Anime",
-    };
-    this.$axios(config)
-      .then((result) => {
-        this.animes = result.data;
-        this.loading = false;
-      })
-      .catch((error) => {
-        this.error = true;
-        console.log(error);
-      });
-  },
   methods: {
     editItem(item) {
       this.editedIndex = this.animes.indexOf(item);
@@ -90,6 +41,13 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
+    forceUpdate() {
+      this.rerender += 1;
+      this.$store.commit("clearError");
+    },
+  },
+  components: {
+    Newest,
   },
 };
 </script>

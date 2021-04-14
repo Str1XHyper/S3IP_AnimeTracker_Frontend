@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-data-table
     :headers="headers"
     :items="watching"
@@ -37,14 +38,62 @@
       </v-icon>
     </template>
   </v-data-table>
+<v-dialog
+      transition="dialog-bottom-transition"
+      v-model="moveDialog"
+      max-width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Are you sure you want to move "{{ selected.anime.name }}"<br> to completed?</span
+          >
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="moveDialog = false"> Cancel </v-btn>
+          <v-btn color="accent" @click="moveToCompleted" text>
+            Completed
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      transition="dialog-bottom-transition"
+      v-model="removeDialog"
+      max-width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Are you sure you want to delete "{{ selected.anime.name }}"?</span
+          >
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="removeDialog = false"> Cancel </v-btn>
+          <v-btn color="error" @click="removeFromWatching" text>
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+</div>
 </template>
 
 <script>
 
 export default {
     data:() =>({
-        search:"",
-        loading: true,
+      selected: {
+      anime: {
+        name: "string",
+      },
+    },
+      moveDialog:false,
+    removeDialog: false,
+      search:"",
+      loading: true,
       watching: [],
       headers: [
         {
@@ -72,6 +121,58 @@ export default {
       .catch((error) => {
         this.error = true;
       });
+  },
+  methods:{
+    openMoveDialog(progress){
+      this.selected = progress;
+      this.moveDialog = true;
+    },
+    openRemoveDialog(progress) {
+      this.selected = progress;
+      this.removeDialog = true;
+    },
+    removeFromWatching() {
+      const config = {
+        method: "delete",
+        url: "/List/Watching/Remove/",
+        data: {
+          animeID: this.selected.anime.id,
+          userID: this.$store.state.user.iD,
+        },
+      };
+      this.$axios(config)
+        .then((result) => {
+          this.removeDialog = false;
+          var index = this.watching.findIndex(
+            ({ id }) => id === this.selected.anime.id
+          );
+          this.watching.splice(index, 1);
+        })
+        .catch((error) => {
+          this.error = true;
+        });
+    },
+    moveToCompleted(){
+      const config = {
+        method: "post",
+        url: "/List/Completed/Add/",
+        data: {
+          animeID: this.selected.anime.id,
+          userID: this.$store.state.user.iD,
+        },
+      };
+      this.$axios(config)
+        .then((result) => {
+          this.moveDialog = false;
+          var index = this.watching.findIndex(
+            ({ id }) => id === this.selected.anime.id
+          );
+          this.watching.splice(index, 1);
+        })
+        .catch((error) => {
+          this.error = true;
+        });
+    },
   },
 };
 </script>

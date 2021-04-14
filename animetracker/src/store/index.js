@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     loggedIn: false,
     user: {},
-
+    apiError: false,
   },
   mutations: {
     setLoggedIn(state){
@@ -19,7 +19,12 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user
     },
-
+    setError(state){
+      state.apiError = true;
+    },
+    clearError(state){
+      state.apiError = false;
+    },
   },
   actions: {
   },

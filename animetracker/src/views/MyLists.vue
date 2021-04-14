@@ -8,29 +8,40 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        <PlannedList /> 
+        <PlannedList :key="rerender"/> 
       </v-tab-item>
       <v-tab-item>
-        <WatchingList />
+        <WatchingList :key="rerender"/>
       </v-tab-item>
-      <v-tab-item> </v-tab-item>
+      <v-tab-item> 
+        <CompletedList :key="rerender"/>
+      </v-tab-item>
     </v-tabs-items>
+    <v-btn @click="forceUpdate">reload</v-btn>
   </div>
 </template>
 
 <script>
 import PlannedList from "../components/Lists/PlannedList";
 import WatchingList from "../components/Lists/WatchingList";
+import CompletedList from "../components/Lists/CompletedList";
 export default {
   components: {
     PlannedList,
     WatchingList,
+    CompletedList
   },
   data() {
     return {
       tab: null,
+      rerender: 0,
     };
   },
+  methods:{
+    forceUpdate(){
+      this.rerender += 1;  
+    }
+  }
 };
 </script>
 

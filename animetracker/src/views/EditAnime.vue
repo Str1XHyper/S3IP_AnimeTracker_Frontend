@@ -191,19 +191,20 @@ export default {
       {
         text: "Name",
         align: "start",
-        value: "Name",
+        value: "name",
       },
-      { text: "Description", value: "Description" },
+      { text: "Description", value: "description" },
       { text: "Actions", value: "actions", sortable: false, align:"right" },
     ],
   }),
   created() {
     const config = {
       method: "get",
-      url: "/Anime",
+      url: "/Anime/All",
     };
     this.$axios(config)
       .then((result) => {
+        console.log(result.data)
         this.animes = result.data;
         this.loading = false;
       })
@@ -218,11 +219,11 @@ export default {
       this.deleteDialog = true;
     },
     openEditDialog(anime) {
-      this.name = anime.Name;
-      this.desc = anime.Description;
+      this.name = anime.name;
+      this.desc = anime.description;
       this.id = anime.id;
-      this.img = anime.ImgSrc;
-      this.japname = anime.JapaneseName;
+      this.img = anime.imgSrc;
+      this.japname = anime.japaneseName;
       this.isEdit = true;
       this.editDialog = true;
     },

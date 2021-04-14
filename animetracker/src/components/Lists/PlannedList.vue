@@ -37,24 +37,42 @@
 </template>
 
 <script>
-
 export default {
-    data:() =>({
-        search:"",
-        loading: true,
-      planned: [],
-      plannedHeaders: [
-        {
-          text: "Name",
-          align: "start",
-          value: "name",
-        },
-        { text: "Description", value: "description" },
-        { text: "Watching", value: "watching", sortable: false, align: "right", width: 50, filterable: false },
-        { text: "Remove", value: "remove", sortable: false, align: "right", width: 50, filterable: false },
-      ],
-    }),
-    
+  data: () => ({
+    selected: {
+      anime: {
+        name: "string",
+      },
+    },
+    search: "",
+    loading: true,
+    planned: [],
+    plannedHeaders: [
+      {
+        text: "Name",
+        align: "start",
+        value: "name",
+      },
+      { text: "Description", value: "description" },
+      {
+        text: "Watching",
+        value: "watching",
+        sortable: false,
+        align: "right",
+        width: 50,
+        filterable: false,
+      },
+      {
+        text: "Remove",
+        value: "remove",
+        sortable: false,
+        align: "right",
+        width: 50,
+        filterable: false,
+      },
+    ],
+  }),
+
   created() {
     const config = {
       method: "get",
@@ -68,6 +86,8 @@ export default {
       .catch((error) => {
         this.error = true;
       });
+  },
+  methods: {
   },
 };
 </script>

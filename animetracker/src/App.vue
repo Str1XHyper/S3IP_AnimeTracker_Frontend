@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import ProfileDropdown from '../src/components/ProfileDropdown'
+import ProfileDropdown from '../src/components/Navbar/ProfileDropdown'
 export default {
   name: "App",
 
