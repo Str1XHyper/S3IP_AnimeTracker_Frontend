@@ -18,6 +18,7 @@
       </v-tab-item>
     </v-tabs-items>
     <v-btn @click="forceUpdate">reload</v-btn>
+    a
   </div>
 </template>
 
