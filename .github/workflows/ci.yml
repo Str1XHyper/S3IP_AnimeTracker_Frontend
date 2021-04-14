@@ -83,6 +83,5 @@ jobs:
           username: CICD@tijnvanveghel.dev
           password: ${{secrets.ftp_password}}
           server-dir: public_html/
-          local-dir: ./dist/
 
 
