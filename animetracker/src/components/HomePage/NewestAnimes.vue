@@ -23,16 +23,16 @@
         <v-list-item three-line>
           <v-list-item-content>
             <div class="overline mb-4">
-              {{ anime.JapaneseName }}
+              {{ anime.japaneseName }}
             </div>
             <v-list-item-title class="headline mb-1">
-              {{ anime.Name }}
+              {{ anime.name }}
             </v-list-item-title>
-            <v-list-item-subtitle>{{ anime.Description }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ anime.description }}</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-avatar tile size="80" color="grey"
-            ><v-img :src="anime.ImgSrc"></v-img
+            ><v-img :src="anime.imgSrc"></v-img
           ></v-list-item-avatar>
         </v-list-item>
 
