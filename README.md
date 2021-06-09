@@ -20,6 +20,13 @@ npm run build
 ```
 npx cypress install
 
+npx cypress run
+```
+
+### Run tests and record the results on the cypress.io dashboard
+```
+npx cypress install
+
 npx cypress run --record --key 67cd5d29-cf06-4c1e-aca6-397cf89a2b6e
 ```
 
