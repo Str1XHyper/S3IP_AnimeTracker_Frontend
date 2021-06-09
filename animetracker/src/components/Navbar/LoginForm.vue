@@ -56,6 +56,8 @@
                   </v-btn>
                 </v-row>
               </v-container>
+              <v-alert class="mb-0" v-model="loginError" color="error"
+      dismissible>Wrong username and password combination</v-alert>
             </form>
           </validation-observer>
         </v-tab-item>
@@ -179,6 +181,7 @@ export default {
     show2: false,
     show3: false,
     alert: false,
+    loginError: false,
   }),
   components: {
     ValidationProvider,
@@ -200,6 +203,10 @@ export default {
 
       this.$axios(config)
         .then((response) => {
+          if(response.data == ""){
+            this.loginError = true;
+            return
+          }
           this.$cookie.set("TC.ISD", response.data.jwt, {
             expires: 30,
             domain: "localhost",

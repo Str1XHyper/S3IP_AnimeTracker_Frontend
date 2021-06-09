@@ -1,6 +1,7 @@
 # animetracker
 
 ## Project setup
+After cloning the repository run the following command to setup the project
 ```
 npm install
 ```
