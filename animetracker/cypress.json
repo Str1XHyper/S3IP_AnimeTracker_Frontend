@@ -2,6 +2,7 @@
     "pluginsFile": "tests/e2e/plugins/index.js",
     "env":{
         "Test_Username": "TestUser",
+        "Test_Admin_Username": "TestAdmin",
         "Test_Password": "test"
     },
     "baseUrl": "http://localhost:8080",
