@@ -33,14 +33,15 @@ jobs:
     - name: Build project files
       run: npm run build --if-present
       working-directory: ./animetracker
+    - name: Run project tests
+      run: npx cypress install
+      run: npx cypress run --record --key 67cd5d29-cf06-4c1e-aca6-397cf89a2b6e
+      working-directory: ./animetracker
     - name: Archive production artifact
       uses: actions/upload-artifact@main
       with:
         name: dist
         path: animetracker/dist
-    - name: Run project tests
-      run: npm test
-      working-directory: ./animetracker
 
   # deploy-firebase:
   #   name: Deploy
