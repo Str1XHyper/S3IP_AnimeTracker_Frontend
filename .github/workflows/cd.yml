@@ -1,35 +1,35 @@
 
-name: CD
+# name: CD
 
-on:
-  push:
-    branches: [ master ]
+# on:
+#   push:
+#     branches: [ master ]
 
-jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     name: Deploy
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: ${{ matrix.node-version }}
 
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./animetracker
-      - name: Build project files
-        run: npm run build --if-present
-        working-directory: ./animetracker
-      - name: Deploy to tijnvanveghel.dev
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with:
-          server: 185.182.57.161
-          username: CICD@tijnvanveghel.dev
-          password: ${{secrets.ftp_password}}
-          server-dir: public_html/
-          local-dir: ./animetracker/dist/
+#       - name: Install dependencies
+#         run: npm install
+#         working-directory: ./animetracker
+#       - name: Build project files
+#         run: npm run build --if-present
+#         working-directory: ./animetracker
+#       - name: Deploy to tijnvanveghel.dev
+#         uses: SamKirkland/FTP-Deploy-Action@4.0.0
+#         with:
+#           server: 185.182.57.161
+#           username: CICD@tijnvanveghel.dev
+#           password: ${{secrets.ftp_password}}
+#           server-dir: public_html/
+#           local-dir: ./animetracker/dist/
