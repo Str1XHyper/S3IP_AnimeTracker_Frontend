@@ -8,6 +8,7 @@ export default new Vuex.Store({
     loggedIn: false,
     user: {},
     apiError: false,
+    myListTab: null,
   },
   mutations: {
     setLoggedIn(state){
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     clearError(state){
       state.apiError = false;
     },
+    setListTab(state, tab){
+      state.myListTab = tab
+    }
   },
   actions: {
   },

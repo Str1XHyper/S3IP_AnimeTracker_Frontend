@@ -20,7 +20,7 @@ const routes = [
     name: 'Edit users',
     component: () => import('../views/EditUser.vue'),
     beforeEnter: (to, from , next) =>{
-      if(store.state.user.role != 'Owner'){
+      if(store.state.user.role != 'Owner' && store.state.user.role != 'Admin'){
         next('/')
       } else
       {

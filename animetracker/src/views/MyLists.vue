@@ -8,17 +8,16 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        <PlannedList :key="rerender"/> 
+        <PlannedList :key="rerender" />
       </v-tab-item>
       <v-tab-item>
-        <WatchingList :key="rerender"/>
+        <WatchingList :key="rerender" />
       </v-tab-item>
-      <v-tab-item> 
-        <CompletedList :key="rerender"/>
+      <v-tab-item>
+        <CompletedList :key="rerender" />
       </v-tab-item>
     </v-tabs-items>
     <v-btn @click="forceUpdate">reload</v-btn>
-    a
   </div>
 </template>
 
@@ -30,7 +29,12 @@ export default {
   components: {
     PlannedList,
     WatchingList,
-    CompletedList
+    CompletedList,
+  },
+  created() {
+    if (this.$store.state.myListTab != null) {
+      this.tab = this.$store.state.myListTab;
+    }
   },
   data() {
     return {
@@ -38,11 +42,11 @@ export default {
       rerender: 0,
     };
   },
-  methods:{
-    forceUpdate(){
-      this.rerender += 1;  
-    }
-  }
+  methods: {
+    forceUpdate() {
+      this.rerender += 1;
+    },
+  },
 };
 </script>
 
