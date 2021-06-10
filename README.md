@@ -1,4 +1,4 @@
-#S3IP_AnimeTracker_Frontend
+# S3IP_AnimeTracker_Frontend
 
 ## Project setup
 After cloning the repository run the following command to setup the project
