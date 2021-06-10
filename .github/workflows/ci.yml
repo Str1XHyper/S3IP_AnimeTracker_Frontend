@@ -33,8 +33,10 @@ jobs:
     - name: Build project files
       run: npm run build --if-present
       working-directory: ./animetracker
-    - name: Run project tests
+    - name: Install test runner
       run: npx cypress install
+      working-directory: ./animetracker
+    - name: Run project tests
       run: npx cypress run --record --key 67cd5d29-cf06-4c1e-aca6-397cf89a2b6e
       working-directory: ./animetracker
     - name: Archive production artifact
