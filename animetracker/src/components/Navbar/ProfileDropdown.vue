@@ -20,9 +20,9 @@
         <v-list-item><v-btn text class="px-0"><v-icon class="mr-5">mdi-account</v-icon>Profile</v-btn></v-list-item>
         <v-divider></v-divider>
         <v-subheader>My lists</v-subheader>
-        <v-list-item><v-btn to="/MyList" text class="px-0"><v-icon class="mr-5">mdi-format-list-bulleted</v-icon>Plan to watch</v-btn></v-list-item>
-        <v-list-item><v-btn text class="px-0"><v-icon class="mr-5">mdi-eye</v-icon>Watching</v-btn></v-list-item>
-        <v-list-item><v-btn text class="px-0"><v-icon class="mr-5">mdi-check</v-icon>Completed</v-btn></v-list-item>
+        <v-list-item><v-btn @click="setTab(0)" text class="px-0"><v-icon class="mr-5">mdi-format-list-bulleted</v-icon>Plan to watch</v-btn></v-list-item>
+        <v-list-item><v-btn @click="setTab(1)" text class="px-0"><v-icon class="mr-5">mdi-eye</v-icon>Watching</v-btn></v-list-item>
+        <v-list-item><v-btn @click="setTab(2)" text class="px-0"><v-icon class="mr-5">mdi-check</v-icon>Completed</v-btn></v-list-item>
       </div>
       <v-divider></v-divider>
       <div v-if="(adminAndHigher) && $store.state.loggedIn">
@@ -49,6 +49,12 @@ export default {
       return (this.$store.state.user.role == 'Owner' || this.$store.state.user.role == 'Admin');
     },
   },
+  methods:{
+    setTab(tab){
+      this.$store.commit("setListTab", tab)
+      this.$router.push('MyList')
+    }
+  }
 };
 </script>
 
