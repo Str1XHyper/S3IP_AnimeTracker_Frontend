@@ -29,10 +29,8 @@ jobs:
     - name: Install dependencies
       run: npm install
       working-directory: ./animetracker
-    - name: Run project tests
-      with:
-        start: npm run serve
-      run: npx cypress run --record --key 67cd5d29-cf06-4c1e-aca6-397cf89a2b6e
+    - name: Run tests
+      run: npm run test:e2e
       working-directory: ./animetracker
     - name: Build project files
       run: npm run build --if-present
