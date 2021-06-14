@@ -29,6 +29,3 @@ npx cypress install
 
 npx cypress run --record --key 67cd5d29-cf06-4c1e-aca6-397cf89a2b6e
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
