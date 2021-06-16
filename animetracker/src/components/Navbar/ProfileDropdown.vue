@@ -20,14 +20,14 @@
         <v-list-item><v-btn text class="px-0"><v-icon class="mr-5">mdi-account</v-icon>Profile</v-btn></v-list-item>
         <v-divider></v-divider>
         <v-subheader>My lists</v-subheader>
-        <v-list-item><v-btn @click="setTab(0)" text class="px-0"><v-icon class="mr-5">mdi-format-list-bulleted</v-icon>Plan to watch</v-btn></v-list-item>
-        <v-list-item><v-btn @click="setTab(1)" text class="px-0"><v-icon class="mr-5">mdi-eye</v-icon>Watching</v-btn></v-list-item>
-        <v-list-item><v-btn @click="setTab(2)" text class="px-0"><v-icon class="mr-5">mdi-check</v-icon>Completed</v-btn></v-list-item>
+        <v-list-item><v-btn @click="setTab(0)" text class="px-0" id="profile-dropdown-plantowatch"><v-icon class="mr-5">mdi-format-list-bulleted</v-icon>Plan to watch</v-btn></v-list-item>
+        <v-list-item><v-btn @click="setTab(1)" text class="px-0" id="profile-dropdown-watching"><v-icon class="mr-5">mdi-eye</v-icon>Watching</v-btn></v-list-item>
+        <v-list-item><v-btn @click="setTab(2)" text class="px-0" id="profile-dropdown-completed"><v-icon class="mr-5">mdi-check</v-icon>Completed</v-btn></v-list-item>
       </div>
       <v-divider></v-divider>
       <div v-if="(adminAndHigher) && $store.state.loggedIn">
-        <v-list-item><v-btn to="/EditAnime" text class="px-0"><v-icon class="mr-5">mdi-pencil</v-icon>Edit animes</v-btn></v-list-item>
-        <v-list-item><v-btn to="/EditUser" text class="px-0"><v-icon class="mr-5">mdi-account-cog</v-icon>Edit users</v-btn></v-list-item>
+        <v-list-item><v-btn to="/EditAnime" text class="px-0" id="profile-dropdown-editanimes"><v-icon class="mr-5">mdi-pencil</v-icon>Edit animes</v-btn></v-list-item>
+        <v-list-item><v-btn to="/EditUser" text class="px-0" id="profile-dropdown-editusers"><v-icon class="mr-5">mdi-account-cog</v-icon>Edit users</v-btn></v-list-item>
       <v-divider></v-divider>
       </div>
       <v-list-item>

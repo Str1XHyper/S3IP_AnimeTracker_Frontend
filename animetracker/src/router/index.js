@@ -13,7 +13,15 @@ const routes = [
   {
     path: '/EditAnime',
     name: 'Edit animes',
-    component: () => import('../views/EditAnime.vue')
+    component: () => import('../views/EditAnime.vue'),
+    beforeEnter: (to, from , next) =>{
+      if(store.state.user.role != 'Owner' && store.state.user.role != 'Admin'){
+        next('/')
+      } else
+      {
+        next()
+      }
+    }
   },
   {
     path: '/EditUser',
@@ -32,14 +40,14 @@ const routes = [
     path: '/MyList',
     name: 'My lists',
     component: () => import('../views/MyLists.vue'),
-    // beforeEnter: (to, from , next) =>{
-    //   if(store.state.loggedIn){
-    //     next()
-    //   } else
-    //   {
-    //     next('/')
-    //   }
-    // }
+    beforeEnter: (to, from , next) =>{
+      if(store.state.loggedIn){
+        next()
+      } else
+      {
+        next('/')
+      }
+    }
   },
 ]
 

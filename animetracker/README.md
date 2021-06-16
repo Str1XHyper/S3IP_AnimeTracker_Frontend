@@ -1,4 +1,4 @@
-# animetracker
+#S3IP_AnimeTracker_Frontend
 
 ## Project setup
 After cloning the repository run the following command to setup the project
@@ -16,5 +16,16 @@ npm run serve
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Run tests and record the results
+```
+npx cypress install
+
+npx cypress run
+```
+
+### Run tests and record the results on the cypress.io dashboard
+```
+npx cypress install
+
+npx cypress run --record --key 97c53cfc-b24f-4ffb-971e-6c03a617b320
+```
