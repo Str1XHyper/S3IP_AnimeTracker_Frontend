@@ -8,8 +8,8 @@ import axios from 'axios'
 
 
 Vue.use(cookie)
-axios.defaults.baseURL = "https://api.tijnvanveghel.dev"
-// axios.defaults.baseURL = "http://localhost:3000"
+// axios.defaults.baseURL = "https://api.tijnvanveghel.dev"
+axios.defaults.baseURL = "http://localhost:3000"
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
