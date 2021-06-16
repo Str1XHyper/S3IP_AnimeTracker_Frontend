@@ -25,6 +25,7 @@
                         label="Username*"
                         :error-messages="errors"
                         required
+                        id="textfield-login-username"
                       ></v-text-field>
                     </ValidationProvider>
                   </v-col>
@@ -44,6 +45,7 @@
                         :type="show1 ? 'text' : 'password'"
                         @click:append="show1 = !show1"
                         required
+                        id="textfield-login-password"
                       ></v-text-field>
                     </ValidationProvider>
                   </v-col>

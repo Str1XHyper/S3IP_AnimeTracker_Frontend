@@ -27,6 +27,7 @@
               color="success"
               outlined
               @click="openAddDialog()"
+              id="anime-add-button"
               >Add</v-btn
             >
           </v-toolbar>
