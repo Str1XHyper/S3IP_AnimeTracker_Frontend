@@ -3,6 +3,12 @@ describe('Tests EditAnime functions', () => {
         name: 'Test_Admin_Username',
         password: 'Test_Password'
     }
+    let anime = {
+        name: "!Test Anime",
+        desc: "Test anime decription",
+        imgSrc: "Test image link",
+        japaneseName: "Test Japanese name"
+    }
     beforeEach(() =>{
         cy.visit('/')
         cy.contains('Profile').click()
@@ -17,5 +23,6 @@ describe('Tests EditAnime functions', () => {
     })
     it('Tests Add anime feature', () =>{
         cy.get('#anime-add-button').click()
+        cy.get('#editDialog-japaneseName-input').type(anime.japaneseName)
     })
 })

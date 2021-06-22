@@ -8,5 +8,6 @@
     "baseUrl": "http://localhost:8080",
     "projectId": "ej5niq",
     "viewportHeight":1080,
-    "viewportWidth":1920
+    "viewportWidth":1920,
+    "reporter": "mochawesome"
 }

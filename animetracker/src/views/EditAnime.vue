@@ -44,6 +44,10 @@
       </v-alert>
     </v-container>
 
+
+
+<!-- Delete dialog -->
+
     <v-row justify="center">
       <v-dialog 
         transition="dialog-bottom-transition" v-model="deleteDialog" max-width="600px">
@@ -61,6 +65,12 @@
         </v-card>
       </v-dialog>
     </v-row>
+
+<!-- End Delete dialog -->
+
+
+
+<!-- Edit dialog -->
 
     <v-row justify="center">
       <v-dialog 
@@ -89,20 +99,22 @@
                           label="Name*"
                           :error-messages="errors"
                           required
+                          id="editDialog-name-input"
                         ></v-text-field>
                       </ValidationProvider>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
                       <ValidationProvider
                         v-slot="{ errors }"
-                        name="Name"
+                        name="Image source"
                         rules="required"
                       >
                         <v-text-field
-                          label="Image source"
+                          label="Image source*"
                           v-model="img"
                           :error-messages="errors"
                           required
+                          id="editDialog-imgSrc-input"
                         ></v-text-field>
                       </ValidationProvider>
                     </v-col>
@@ -111,7 +123,7 @@
                     <v-col cols="12" sm="6" md="6">
                       <ValidationProvider
                         v-slot="{ errors }"
-                        name="JapanesName"
+                        name="Japanese Name"
                         rules="required"
                       >
                         <v-text-field
@@ -119,6 +131,7 @@
                           label="Japanese name*"
                           :error-messages="errors"
                           required
+                          id="editDialog-japaneseName-input"
                         ></v-text-field>
                       </ValidationProvider>
                     </v-col>
@@ -135,6 +148,7 @@
                           required
                           v-model="desc"
                           :error-messages="errors"
+                          id="editDialog-description-input"
                         ></v-textarea>
                       </ValidationProvider> </v-col
                   ></v-row>
@@ -143,16 +157,19 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn class="mr-4" type="submit" :disabled="invalid">
+                <v-btn class="mr-4" type="submit" :disabled="invalid" id="Confirm-EditAdd">
                   Save
                 </v-btn>
-                <v-btn @click="closeEditDialog"> Cancel </v-btn>
+                <v-btn @click="closeEditDialog" id="Cancel-EditAdd"> Cancel </v-btn>
               </v-card-actions>
             </form>
           </validation-observer>
         </v-card>
       </v-dialog>
     </v-row>
+
+    <!-- End Edit dialog -->
+
   </div>
 </template>
 
